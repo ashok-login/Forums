@@ -1,0 +1,38 @@
+<div class="container">
+  Question Title:
+  <div class="row">
+    <div class="col-md-12">
+      <input type="text" placeholder="Enter summary of your question here" class="form-control">
+    </div>
+  </div>
+
+  Question Description:
+  <div class="row">
+    <div class="col-md-12">
+      <quill-editor [styles]="{height: '200px'}" [modules]="editor_modules" (onEditorChanged)="changedEditor($event)">
+      </quill-editor>
+    </div>
+  </div>
+
+  Related Modules:
+  <div class="row">
+    <div class="col-md-12">
+      <ng-multiselect-dropdown
+        [placeholder]="'Select the related module'"
+        [data]="modulesList"
+        [(ngModel)]="selectedItems"
+        [settings]="dropdownSettings"
+        (onSelect)="onItemSelect($event)"
+        (onDeSelect)="onItemDeSelect($event)"
+        (onSelectAll)="onSelectAll($event)">
+      </ng-multiselect-dropdown>
+      <button (click)="showSelectedTags()">Show Selected Tags</button>
+    </div>
+  </div>
+  <div class="row">
+    <h3 style="text-align: left;">Output</h3>
+    <div class="col-md-8 bg-light">
+      <p [innerHtml]="editorText"></p>
+    </div>
+  </div>
+</div>

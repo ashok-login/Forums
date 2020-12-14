@@ -1,0 +1,6 @@
+<p>dynamic-search-filter works!</p>
+<input type="text" [(ngModel)]="searchName">
+<ul *ngFor="let module of modules | filter: searchName">
+    <li>{{ module }}
+    </li>
+</ul>
