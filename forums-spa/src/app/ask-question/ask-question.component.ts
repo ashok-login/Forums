@@ -3,6 +3,9 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { Module } from '../_models/module';
+import { AlertifyService } from '../_services/alertify.service';
+import { ModuleService } from '../_services/module.service';
 
 @Component({
   selector: 'app-ask-question',
@@ -17,11 +20,11 @@ export class AskQuestionComponent implements OnInit {
   public editor_modules: any;
   editorText: string;
 
-  modulesList = [];
+  modulesList: Module[] = new Array();
   selectedItems = [];
   dropdownSettings:IDropdownSettings = {};
   
-  constructor(private http: HttpClient) {
+  constructor(private moduleService: ModuleService, private alertify: AlertifyService) {
     
   }
 
@@ -31,8 +34,8 @@ export class AskQuestionComponent implements OnInit {
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'tag_id',
-      textField: 'tag_name',
+      idField: 'module_id',
+      textField: 'module_name',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
@@ -67,19 +70,12 @@ export class AskQuestionComponent implements OnInit {
 
   getModulesList(): any {
     var modulesArray = new Array(3);// MYTODO: Why do I need this 3?
-    this.http.get('')
-        .subscribe(response => {
-          modulesArray = response;
-        });
-    // tagsArray[0] = { tag_id: 1, tag_name: 'TVLLVL' };
-    // tagsArray[1] = { tag_id: 2, tag_name: 'Account Management' };
-    // tagsArray[2] = { tag_id: 3, tag_name: 'Finance' };
-    // tagsArray[3] = { tag_id: 4, tag_name: 'TER' };
-    // tagsArray[4] = { tag_id: 5, tag_name: 'TP' };
-    // tagsArray[5] = { tag_id: 6, tag_name: 'Payments' };
-    // tagsArray[6] = { tag_id: 7, tag_name: 'Case Management' };
-    // tagsArray[7] = { tag_id: 8, tag_name: 'Trip Posing' };
-    return modulesArray;
+    this.moduleService.getModules().subscribe((modules: Module[]) => {
+      this.modulesList = modules;
+      return this.modulesList;
+    }, error => {
+      this.alertify.error(error);
+    });
   }
 
   onItemSelect(item: any) {

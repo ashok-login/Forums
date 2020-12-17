@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
-import { Tag } from '../_models/tag';
+import { Module } from '../_models/module';
 
 @Component({
   selector: 'app-multiple-checkboxes',

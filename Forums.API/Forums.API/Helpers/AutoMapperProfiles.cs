@@ -12,7 +12,11 @@ namespace Forums.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Module, ModulesForListDto>();
+            CreateMap<Module, ModulesForListDto>()
+                .ForMember(dest => dest.Id,
+                opt => opt.MapFrom(src => src.Id))
+                .ForMember(dest => dest.ModuleName,
+                opt => opt.MapFrom(src => src.Name));
         }
     }
 }
