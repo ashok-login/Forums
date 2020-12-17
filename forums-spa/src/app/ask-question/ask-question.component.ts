@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
@@ -20,6 +21,10 @@ export class AskQuestionComponent implements OnInit {
   selectedItems = [];
   dropdownSettings:IDropdownSettings = {};
   
+  constructor(private http: HttpClient) {
+    
+  }
+
   ngOnInit(): void {
     this.init_editor_modules();
     this.modulesList = this.getModulesList();
@@ -61,16 +66,20 @@ export class AskQuestionComponent implements OnInit {
   }
 
   getModulesList(): any {
-    var tagsArray = new Array(3);// MYTODO: Why do I need this 3?
-    tagsArray[0] = { tag_id: 1, tag_name: 'TVLLVL' };
-    tagsArray[1] = { tag_id: 2, tag_name: 'Account Management' };
-    tagsArray[2] = { tag_id: 3, tag_name: 'Finance' };
-    tagsArray[3] = { tag_id: 4, tag_name: 'TER' };
-    tagsArray[4] = { tag_id: 5, tag_name: 'TP' };
-    tagsArray[5] = { tag_id: 6, tag_name: 'Payments' };
-    tagsArray[6] = { tag_id: 7, tag_name: 'Case Management' };
-    tagsArray[7] = { tag_id: 8, tag_name: 'Trip Posing' };
-    return tagsArray;
+    var modulesArray = new Array(3);// MYTODO: Why do I need this 3?
+    this.http.get('')
+        .subscribe(response => {
+          modulesArray = response;
+        });
+    // tagsArray[0] = { tag_id: 1, tag_name: 'TVLLVL' };
+    // tagsArray[1] = { tag_id: 2, tag_name: 'Account Management' };
+    // tagsArray[2] = { tag_id: 3, tag_name: 'Finance' };
+    // tagsArray[3] = { tag_id: 4, tag_name: 'TER' };
+    // tagsArray[4] = { tag_id: 5, tag_name: 'TP' };
+    // tagsArray[5] = { tag_id: 6, tag_name: 'Payments' };
+    // tagsArray[6] = { tag_id: 7, tag_name: 'Case Management' };
+    // tagsArray[7] = { tag_id: 8, tag_name: 'Trip Posing' };
+    return modulesArray;
   }
 
   onItemSelect(item: any) {

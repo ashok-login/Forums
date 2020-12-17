@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Forums.API.Models
 {
-    [Table("Tag")]
-    public class Tag
+    [Table("Module_master")]
+    public class Module
     {
         public int Id { get; set; }
-        public string TagName { get; set; }
+        public string Name { get; set; }
         public bool IsDeleted { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedDate { get; set; }

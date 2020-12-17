@@ -1,3 +1,4 @@
+using AutoMapper;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,8 +36,9 @@ namespace Forums.API
             services.AddDbContext<ForumsDataContext>(x => x.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllers().AddNewtonsoftJson();
             services.AddCors();
+            services.AddAutoMapper(typeof(ModuleRepository).Assembly);
             services.AddScoped<IAuthRepository, AuthRepository>();
-            services.AddScoped<ITagsRepository, TagRepository>();
+            services.AddScoped<IModuleRepository, ModuleRepository>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options => {
