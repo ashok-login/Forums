@@ -3,6 +3,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { IDropdownSettings } from 'ng-multiselect-dropdown';
 import { EditorChangeContent, EditorChangeSelection } from 'ngx-quill';
+import { Observable } from 'rxjs';
 import { Module } from '../_models/module';
 import { AlertifyService } from '../_services/alertify.service';
 import { ModuleService } from '../_services/module.service';
@@ -20,8 +21,8 @@ export class AskQuestionComponent implements OnInit {
   public editor_modules: any;
   editorText: string;
 
-  modulesList: Module[] = new Array();
   selectedItems = [];
+  modulesList: any[];
   dropdownSettings:IDropdownSettings = {};
   
   constructor(private moduleService: ModuleService, private alertify: AlertifyService) {
@@ -30,12 +31,12 @@ export class AskQuestionComponent implements OnInit {
 
   ngOnInit(): void {
     this.init_editor_modules();
-    this.modulesList = this.getModulesList();
+    this.getModulesList();
 
     this.dropdownSettings = {
       singleSelection: false,
-      idField: 'module_id',
-      textField: 'module_name',
+      idField: 'id',
+      textField: 'moduleName',
       selectAllText: 'Select All',
       unSelectAllText: 'UnSelect All',
       itemsShowLimit: 3,
@@ -68,11 +69,10 @@ export class AskQuestionComponent implements OnInit {
     };
   }
 
-  getModulesList(): any {
+  getModulesList() {
     var modulesArray = new Array(3);// MYTODO: Why do I need this 3?
     this.moduleService.getModules().subscribe((modules: Module[]) => {
       this.modulesList = modules;
-      return this.modulesList;
     }, error => {
       this.alertify.error(error);
     });
